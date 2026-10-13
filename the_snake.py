@@ -104,7 +104,6 @@ class Snake(GameObject):
             (head_y + dy * GRID_SIZE) % SCREEN_HEIGHT,
         )
 
-        # Если змейка врезалась в себя — сбрасываем.
         if new_head in self.positions[:-1]:
             self.reset()
             return
@@ -145,14 +144,20 @@ def handle_keys(game_object):
                 game_object.next_direction = UP
             elif event.key == pygame.K_DOWN and game_object.direction != UP:
                 game_object.next_direction = DOWN
-            elif event.key == pygame.K_LEFT and game_object.direction != RIGHT:
+            elif (
+                event.key == pygame.K_LEFT
+                and game_object.direction != RIGHT
+            ):
                 game_object.next_direction = LEFT
-            elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
+            elif (
+                event.key == pygame.K_RIGHT
+                and game_object.direction != LEFT
+            ):
                 game_object.next_direction = RIGHT
 
 
 def main():
-    """Основная логика игры."""
+    """Запускает основной игровой цикл «Змейки»."""
     pygame.init()
 
     snake = Snake()
@@ -165,12 +170,10 @@ def main():
         snake.update_direction()
         snake.move()
 
-        # Если змейка съела яблоко.
         if snake.positions[0] == apple.position:
             snake.length += 1
             apple.randomize_position()
 
-        # Отрисовка.
         screen.fill(BOARD_BACKGROUND_COLOR)
         apple.draw()
         snake.draw()
